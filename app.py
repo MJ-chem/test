@@ -2,13 +2,10 @@ import streamlit as st
 import pandas as pd
 import time
 
-
-
 st.title("대학수학능력시험 응시현황")
 st.image('image.jpeg')
 data = pd.read_csv("members.csv") # 회원 목록 불러오는 코드
 data["PW"] = data["PW"].astype(str)
-data
 
 with st.form("login_form"): # 들여쓰기는 선택하고 Tab
     ID = st.text_input("ID", placeholder="아이디를 입력하세요") # placeholder (안내문구)
