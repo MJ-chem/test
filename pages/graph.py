@@ -12,8 +12,8 @@ ID = st.session_state["ID"]
 with st.sidebar:
     st.caption(f'{ID}님 접속중')
 
-# Matplotlib 기본 폰트 변경 (웹 안전 폰트 - Noto Sans CJK 사용)
-plt.rcParams['font.family'] = 'Noto Sans CJK JP'  # Noto Sans CJK 설정
+# DejaVu Sans 폰트 설정
+plt.rcParams['font.family'] = 'DejaVu Sans'
 plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 오류 방지
 
 with st.form("input"):
