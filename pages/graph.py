@@ -1,6 +1,10 @@
 import streamlit as st
 import pandas as pd
+import os
 import matplotlib.pyplot as plt
+from matplotlib import rc
+import urllib.request
+import zipfile
 
 data = pd.read_csv("탐구.csv")
 
@@ -12,9 +16,23 @@ ID = st.session_state["ID"]
 with st.sidebar:
     st.caption(f'{ID}님 접속중')
 
-# DejaVu Sans 폰트 설정
-plt.rcParams['font.family'] = 'DejaVu Sans'
-plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 오류 방지
+# Noto Sans CJK 다운로드 및 설치
+font_dir = "/usr/share/fonts/truetype/noto"
+os.makedirs(font_dir, exist_ok=True)
+font_path = os.path.join(font_dir, "NotoSansCJK-Regular.ttc")
+
+if not os.path.exists(font_path):
+    # 폰트 다운로드
+    font_url = "https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip"
+    urllib.request.urlretrieve(font_url, "/tmp/NotoSansCJK.zip")
+
+    # 압축 해제
+    with zipfile.ZipFile("/tmp/NotoSansCJK.zip", "r") as zip_ref:
+        zip_ref.extractall(font_dir)
+
+# Matplotlib에 폰트 적용
+rc('font', family='Noto Sans CJK JP')
+plt.rcParams['axes.unicode_minus'] = False
 
 with st.form("input"):
     exploration = st.multiselect("탐구영역", data['탐구영역'].unique())
