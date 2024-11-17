@@ -13,8 +13,9 @@ ID = st.session_state["ID"]
 with st.sidebar:
     st.caption(f'{ID}님 접속중')
 
-plt.rcParams['font.family'] = 'DejaVu Sans'  # 웹 안전 글꼴
-plt.rcParams['axes.unicode_minus'] = False
+# Matplotlib 기본 폰트 변경 (웹 안전 폰트 사용)
+plt.rcParams['font.family'] = 'Arial'  # 웹 안전 폰트
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 오류 방지
 
 with st.form("input"):
     exploration = st.multiselect("탐구영역", data['탐구영역'].unique())
