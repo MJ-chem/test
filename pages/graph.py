@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm
 
 data = pd.read_csv("탐구.csv")
 
@@ -13,15 +12,9 @@ ID = st.session_state["ID"]
 with st.sidebar:
     st.caption(f'{ID}님 접속중')
 
-# 폰트 경로 수정
-font_path = 'C:\Windows\Fonts\굴림 보통.ttf'  # 경로 및 파일명 확인 후 정확히 수정
-
-# 폰트 이름 가져오기
-font_name = fm.FontProperties(fname=font_path).get_name()
-
-# Matplotlib의 기본 폰트 변경
-plt.rcParams['font.family'] = font_name
-plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호가 깨지는 문제 해결
+# Matplotlib 기본 폰트 변경 (웹 안전 폰트 사용)
+plt.rcParams['font.family'] = 'Arial'  # 웹 안전 폰트
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 오류 방지
 
 with st.form("input"):
     exploration = st.multiselect("탐구영역", data['탐구영역'].unique())
