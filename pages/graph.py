@@ -17,6 +17,7 @@ font_dir = os.path.join(os.path.dirname(__file__), "fonts")
 font_path = os.path.join(font_dir, "나눔고딕 보통.ttf")
 
 try:
+    # 폰트 설정
     font_prop = fm.FontProperties(fname=font_path)
     plt.rcParams['font.family'] = font_prop.get_name()
     plt.rcParams['axes.unicode_minus'] = False
