@@ -13,9 +13,15 @@ ID = st.session_state["ID"]
 with st.sidebar:
     st.caption(f'{ID}님 접속중')
 
-# Matplotlib 기본 폰트 변경 (Noto Sans CJK 사용)
-plt.rcParams['font.family'] = 'Noto Sans CJK JP'  # Noto Sans CJK 폰트 설정
-plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 오류 방지
+# 폰트 경로 수정
+font_path = 'C:\Windows\Fonts\굴림 보통.ttf'  # 경로 및 파일명 확인 후 정확히 수정
+
+# 폰트 이름 가져오기
+font_name = fm.FontProperties(fname=font_path).get_name()
+
+# Matplotlib의 기본 폰트 변경
+plt.rcParams['font.family'] = font_name
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호가 깨지는 문제 해결
 
 with st.form("input"):
     exploration = st.multiselect("탐구영역", data['탐구영역'].unique())
