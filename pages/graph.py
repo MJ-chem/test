@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib
+import matplotlib.font_manager as fm
 
 data = pd.read_csv("탐구.csv")
 
@@ -13,9 +13,8 @@ ID = st.session_state["ID"]
 with st.sidebar:
     st.caption(f'{ID}님 접속중')
 
-# 한글 폰트 설정
-matplotlib.rcParams['font.family'] = 'Malgun Gothic'
-matplotlib.rcParams['axes.unicode_minus'] = False  # 마이너스 폰트 깨짐 방지
+plt.rcParams['font.family'] = 'DejaVu Sans'  # 웹 안전 글꼴
+plt.rcParams['axes.unicode_minus'] = False
 
 with st.form("input"):
     exploration = st.multiselect("탐구영역", data['탐구영역'].unique())

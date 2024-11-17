@@ -7,6 +7,14 @@ data1 = pd.read_csv("국어.csv")
 data2 = pd.read_csv("수학.csv")
 data3 = pd.read_csv("영어.csv")
 
+if "ID" not in st.session_state:
+    st.session_state["ID"] = "None"
+
+ID = st.session_state["ID"]
+
+with st.sidebar:
+    st.caption(f'{ID}님 접속중')
+
 # 색상 매핑
 colors = {
     '화법과 작문': [255, 165, 0, 160],
