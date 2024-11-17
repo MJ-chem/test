@@ -6,7 +6,7 @@ from matplotlib import font_manager as fm
 
 # 현재 디렉토리와 폰트 경로 설정
 current_dir = os.path.dirname(__file__)
-font_path = os.path.join(current_dir, "fonts", "나눔고딕 보통.ttf")
+font_path = os.path.join(current_dir, "fonts", "나눔고딕 보통.TTF")
 data_path = os.path.join(current_dir, "..", "탐구.csv")
 
 # 폰트 설정
