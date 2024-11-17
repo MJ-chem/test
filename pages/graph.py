@@ -4,18 +4,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import font_manager as fm
 
-# 파일 경로 설정
-current_dir = os.path.dirname(__file__)  # 현재 파일의 디렉토리
-font_path = os.path.join(current_dir, "fonts", "나눔고딕 보통.TTF")  # 폰트 경로
-data_path = os.path.join(current_dir, "..", "탐구.csv")  # 데이터 경로 (루트 디렉토리)
+# 현재 디렉토리와 폰트 경로 설정
+current_dir = os.path.dirname(__file__)
+font_path = os.path.join(current_dir, "fonts", "나눔고딕 보통.ttf")
+data_path = os.path.join(current_dir, "..", "탐구.csv")
 
 # 폰트 설정
 if not os.path.exists(font_path):
     st.error(f"폰트 파일을 찾을 수 없습니다: {font_path}")
 else:
     font_prop = fm.FontProperties(fname=font_path)
-    plt.rcParams['font.family'] = font_prop.get_name()
-    plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 오류 방지
 
 # 데이터 로드
 if not os.path.exists(data_path):
@@ -36,19 +34,23 @@ with st.form("input"):
     submitted = st.form_submit_button("조회")
     
     if submitted and exploration:
-        # 사용자가 선택한 탐구영역에 대한 데이터 필터링
+        # 선택한 탐구영역 데이터 필터링
         filtered_data = data[data['탐구영역'].isin(exploration)]
         
         if not filtered_data.empty:
-            # 인원 수를 직접 사용하여 막대 그래프 생성
+            # 그래프 생성 시 폰트 직접 지정
             fig, ax = plt.subplots()
-            ax.bar(filtered_data['선택과목'], filtered_data['인원수'], color='green')  # 색상 지정
-            ax.set_xlabel('선택과목')
-            ax.set_ylabel('인원 수')
-            ax.set_title('선택과목별 인원 수')
-            # x축 레이블 간격 조정
+            ax.bar(filtered_data['선택과목'], filtered_data['인원수'], color='green')
+            ax.set_xlabel('선택과목', fontproperties=font_prop)
+            ax.set_ylabel('인원 수', fontproperties=font_prop)
+            ax.set_title('선택과목별 인원 수', fontproperties=font_prop)
             ax.set_xticks(range(len(filtered_data['선택과목'])))
-            ax.set_xticklabels(filtered_data['선택과목'], rotation=45, ha="right")  # 회전하여 레이블 표시
+            ax.set_xticklabels(
+                filtered_data['선택과목'], 
+                rotation=45, 
+                ha="right", 
+                fontproperties=font_prop
+            )
             st.pyplot(fig)
         else:
             st.error("선택한 탐구영역에 대한 데이터가 없습니다.")
