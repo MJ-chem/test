@@ -1,10 +1,6 @@
 import streamlit as st
 import pandas as pd
-import os
 import matplotlib.pyplot as plt
-from matplotlib import rc
-import urllib.request
-import zipfile
 
 data = pd.read_csv("탐구.csv")
 
@@ -16,25 +12,45 @@ ID = st.session_state["ID"]
 with st.sidebar:
     st.caption(f'{ID}님 접속중')
 
-# Noto Sans CJK 다운로드 및 설치
-font_dir = "/usr/share/fonts/truetype/noto"
-os.makedirs(font_dir, exist_ok=True)
-font_path = os.path.join(font_dir, "NotoSansCJK-Regular.ttc")
+# CSS 스타일 추가
+st.markdown(
+    """
+    <style>
+        .title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2b2b2b;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .subtitle {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 18px;
+            color: #3a3a3a;
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        .error-message {
+            font-family: 'Noto Sans KR', sans-serif;
+            color: red;
+            font-size: 16px;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-if not os.path.exists(font_path):
-    # 폰트 다운로드
-    font_url = "https://noto-website-2.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip"
-    urllib.request.urlretrieve(font_url, "/tmp/NotoSansCJK.zip")
+# 제목 표시
+st.markdown('<div class="title">탐구영역 선택과목별 인원 수</div>', unsafe_allow_html=True)
 
-    # 압축 해제
-    with zipfile.ZipFile("/tmp/NotoSansCJK.zip", "r") as zip_ref:
-        zip_ref.extractall(font_dir)
+# Matplotlib 기본 폰트 변경 (웹 안전 폰트 - Noto Sans CJK 사용)
+plt.rcParams['font.family'] = 'Noto Sans CJK JP'  # Noto Sans CJK 설정
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 오류 방지
 
-# Matplotlib에 폰트 적용
-rc('font', family='Noto Sans CJK JP')
-plt.rcParams['axes.unicode_minus'] = False
-
+# 입력 폼 생성
 with st.form("input"):
+    st.markdown('<div class="subtitle">탐구영역을 선택하세요:</div>', unsafe_allow_html=True)
     exploration = st.multiselect("탐구영역", data['탐구영역'].unique())
     submitted = st.form_submit_button("조회")
     
@@ -54,4 +70,4 @@ with st.form("input"):
             ax.set_xticklabels(filtered_data['선택과목'], rotation=45, ha="right")  # 회전하여 레이블 표시
             st.pyplot(fig)
         else:
-            st.error("선택한 탐구영역에 대한 데이터가 없습니다.")
+            st.markdown('<div class="error-message">선택한 탐구영역에 대한 데이터가 없습니다.</div>', unsafe_allow_html=True)
